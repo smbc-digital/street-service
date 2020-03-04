@@ -22,7 +22,7 @@ The interface requires a ProviderName and a SearchAsync method which must return
 ```c#
 EStreetProvider ProviderName { get; }
 
-Task<IEnumerable<AddressSearchResult>> SearchAsync(string streetOrPostcode);
+Task<IEnumerable<AddressSearchResult>> SearchAsync(EStreetProvider streetProvider, string searchTerm);
 ```
 
 You can register new/multiple street providers in startup 
