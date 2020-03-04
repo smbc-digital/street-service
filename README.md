@@ -17,24 +17,18 @@
 
 `IStreetProvider` is provided to enable integration with different street level data sources. 
 
-Implementation is almost identical to that described in the AddressProvider
+The interface requires a ProviderName and a SearchAsync method which must return an `AddressSearchResult` object. 
 
-Register for use 
+```c#
+EStreetProvider ProviderName { get; }
+
+Task<IEnumerable<AddressSearchResult>> SearchAsync(string streetOrPostcode);
+```
+
+You can register new/multiple street providers in startup 
 
 ```c#
 services.AddSingleton<IStreetProvider, FakeStreetProvider>();
 services.AddSingleton<IStreetProvider, CRMStreetProvider>();
-return services;
-```
-
-Specify which street provider to use.
-
-```json
-"Elements": [
-  {
-    "Type": "Street",
-    "Properties": {
-      "QuestionId": "customersstreet",
-      "StreetProvider": "Fake",
-    }
+services.AddSingleton<IStreetProvider, MyCustomStreetProvider>();
 ```
