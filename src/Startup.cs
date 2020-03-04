@@ -72,7 +72,7 @@ namespace street_service
             var swaggerPrefix = env.EnvironmentName == "local" ? string.Empty : "/streetservice";
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "street_service API");
+                c.SwaggerEndpoint($"{swaggerPrefix}/swagger/v1/swagger.json", "street_service API");
             });
         }
     }
