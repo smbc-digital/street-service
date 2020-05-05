@@ -1,18 +1,13 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Collections.Generic;
 using street_service.Utils.HealthChecks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StockportGovUK.AspNetCore.Middleware;
 using StockportGovUK.AspNetCore.Availability;
 using StockportGovUK.AspNetCore.Availability.Middleware;
 using StockportGovUK.NetStandard.Gateways;
-using Swashbuckle.AspNetCore.Swagger;
-using street_service.Providers;
-using street_service.Services;
 using street_service.Utils.ServiceCollectionExtensions;
 
 namespace street_service
@@ -29,6 +24,7 @@ namespace street_service
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
             services.AddAvailability();
             services.AddSwagger();
