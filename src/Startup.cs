@@ -24,7 +24,8 @@ namespace street_service
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson();
             services.AddResilientHttpClients<IGateway, Gateway>(Configuration);
             services.AddAvailability();
             services.AddSwagger();
