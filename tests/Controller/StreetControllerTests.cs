@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using StockportGovUK.NetStandard.Models.Enums;
 using StockportGovUK.NetStandard.Models.Addresses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace street_service_tests.Controllers
 {
@@ -15,9 +16,11 @@ namespace street_service_tests.Controllers
         private readonly StreetController _controller;
         private readonly Mock<IStreetService> _mockService = new Mock<IStreetService>();
 
+        private readonly Mock<ILogger<StreetController>> _mockLogger = new Mock<ILogger<StreetController>>();
+
         public StreetControllerTests()
         {
-            _controller = new StreetController(_mockService.Object);
+            _controller = new StreetController(_mockService.Object, _mockLogger.Object);
         }
 
         [Fact]
