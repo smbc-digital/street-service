@@ -23,6 +23,7 @@ namespace street_service.Controllers
         public StreetController(IStreetService streetService, ILogger<StreetController> logger)
         {
             _streetService = streetService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -38,7 +39,7 @@ namespace street_service.Controllers
             {
                 var stopwatch = Stopwatch.StartNew();
                 var result = await _streetService.SearchAsync(streetProvider, searchTerm);
-                _logger.LogWarning($"StreetService:StreetController: received request, provider: {streetProvider} term {searchTerm} - Processing time : { stopwatch.Elapsed.TotalSeconds }");
+                _logger.LogWarning($"StreetService:StreetController: received request, provider: {streetProvider} term {searchTerm} - Processing time : {stopwatch.Elapsed.TotalSeconds}");
                 return Ok(result);                
             }
             catch(ProviderException e)
