@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StockportGovUK.AspNetCore.Attributes.TokenAuthentication;
 using StockportGovUK.NetStandard.Models.Enums;
 using street_service.Exceptions;
 using street_service.Services;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace street_service.Controllers
@@ -16,7 +18,9 @@ namespace street_service.Controllers
     {
         private readonly IStreetService _streetService;
 
-        public StreetController(IStreetService streetService)
+        private readonly ILogger<StreetController> _logger;
+
+        public StreetController(IStreetService streetService, ILogger<StreetController> logger)
         {
             _streetService = streetService;
         }
@@ -32,8 +36,10 @@ namespace street_service.Controllers
 
             try
             {
+                var stopwatch = Stopwatch.StartNew();
                 var result = await _streetService.SearchAsync(streetProvider, searchTerm);
-                return Ok(result);
+                _logger.LogWarning($"StreetService:StreetController: received request, provider: {streetProvider} term {searchTerm} - Processing time : { stopwatch.Elapsed.TotalSeconds }");
+                return Ok(result);                
             }
             catch(ProviderException e)
             {
