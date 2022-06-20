@@ -44,10 +44,12 @@ namespace street_service.Controllers
             }
             catch(ProviderException e)
             {
+                _logger.LogWarning($"StreetService:StreetController", e);
                 return BadRequest();
             }
             catch (Exception e)
             {
+                _logger.LogWarning($"StreetService:StreetController", e);
                 return StatusCode(500);
             }
         }
