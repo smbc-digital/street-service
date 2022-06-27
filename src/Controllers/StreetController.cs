@@ -5,7 +5,6 @@ using StockportGovUK.NetStandard.Models.Enums;
 using street_service.Exceptions;
 using street_service.Services;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace street_service.Controllers
@@ -17,7 +16,6 @@ namespace street_service.Controllers
     public class StreetController : ControllerBase
     {
         private readonly IStreetService _streetService;
-
         private readonly ILogger<StreetController> _logger;
 
         public StreetController(IStreetService streetService, ILogger<StreetController> logger)
@@ -31,25 +29,21 @@ namespace street_service.Controllers
         public async Task<IActionResult> Get(EStreetProvider streetProvider, string searchTerm)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest();
-            }
 
             try
             {
-                var stopwatch = Stopwatch.StartNew();
                 var result = await _streetService.SearchAsync(streetProvider, searchTerm);
-                _logger.LogWarning($"StreetService:StreetController: received request, provider: {streetProvider} term {searchTerm} - Processing time : {stopwatch.Elapsed.TotalSeconds}");
                 return Ok(result);                
             }
-            catch(ProviderException e)
+            catch(ProviderException ex)
             {
-                _logger.LogWarning($"StreetService:StreetController", e);
+                _logger.LogWarning($"StreetService:StreetController {ex.Message}");
                 return BadRequest();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _logger.LogWarning($"StreetService:StreetController", e);
+                _logger.LogWarning($"StreetService:StreetController {ex.Message}");
                 return StatusCode(500);
             }
         }
